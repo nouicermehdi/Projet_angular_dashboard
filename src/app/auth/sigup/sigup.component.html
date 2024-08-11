@@ -1,26 +1,72 @@
-<form>
-    <div class="mb-3 text-center" >
+<form #sigupform="ngForm">
+    <div class="mb-3 text-center">
         <h2>Inscription</h2>
     </div>
     <div class="mb-3">
         <label class="form-label">Nom</label>
-        <input class="form-control" placeholder="Votre Nom ici" [(ngModel)]="utilisateur.nom" name="nom" type="text">
+        <input class="form-control" pattern="[a-zA-Z]{3,20}" name="nom"
+            placeholder="Votre Nom ici" #nom="ngModel"
+            [(ngModel)]="utilisateur.nom" required type="text">
+        <div *ngIf="nom.touched&&nom.invalid" class="alert alert-danger">
+            <div *ngIf="nom.errors&&nom.errors['required']">Le nom est
+                obligatoire</div>
+            <div *ngIf="nom.errors&&nom.errors['pattern']">veuillez saisir un
+                nom correct</div>
+        </div>
     </div>
     <div class="mb-3">
         <label class="form-label">Prenom</label>
-        <input class="form-control" placeholder="Votre Prenom ici" [(ngModel)]="utilisateur.prenom" name="prenom" type="text">
+        <input class="form-control" placeholder="Votre Prenom ici"
+            pattern="[a-zA-Z]{3,20}" #prenom="ngModel"
+            [(ngModel)]="utilisateur.prenom" required name="prenom" type="text">
+        <div *ngIf="prenom.touched&&prenom.invalid" class="alert alert-danger">
+            <div *ngIf="prenom.errors&&prenom.errors['required']">Le prenom est
+                obligatoire</div>
+            <div *ngIf="prenom.errors&&prenom.errors['pattern']">veuillez saisir
+                un prenom correct</div>
+        </div>
+
     </div>
 
     <div class="mb-3">
         <label class="form-label">Email</label>
-        <input class="form-control" placeholder="Votre email ici" [(ngModel)]="utilisateur.email" name="email" type="email">
-    </div>
+        <input class="form-control"
+            pattern="[a-zA-Z0-9._-]+@[a-zA-Z._-]+\.[a-zA-Z]{2,6}"
+            placeholder="Votre email ici" name="email"
+            #email="ngModel" [(ngModel)]="utilisateur.email"
+            type="email" required>
+        <div *ngIf="email.touched&&email.invalid" class="alert alert-danger">
+            <div *ngIf="email.errors&&email.errors['required']">Le email est
+                obligatoire</div>
+            <div *ngIf="email.errors&&email.errors['pattern']">veuillez saisir
+                un email correct</div>
+        </div>
+
+    </div><!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]){8,}" -->
+
     <div class="mb-3">
         <label class="form-label">Password</label>
-        <input class="form-control" placeholder="Votre Password ici" [(ngModel)]="utilisateur.password" name="password" type="password">
+        <input class="form-control"
+
+            #password="ngModel" name="password"
+            pattern="[a-zA-Z@èéçàù#$%^&+=!-_0-9]{8,}"
+            placeholder="Votre Password ici"
+            [(ngModel)]="utilisateur.password" type="password"
+            required>
+        <div *ngIf="password.touched&&password.invalid"
+            class="alert alert-danger">
+            <div *ngIf="password.errors&&password.errors['required']">Le
+                password est
+                obligatoire</div>
+            <div *ngIf="password.errors&&password.errors['pattern']">veuillez
+                saisir
+                un password avec min 8 caractère</div>
+        </div>
     </div>
     <div class="mb-3 text-center">
-        <button class="btn btn-primary">S'inscrire</button>
+        <button [disabled]="sigupform.invalid"
+            class="btn btn-primary">S'inscrire</button>
         <br>
-        <a routerLink="../">Se connecter</a>    </div>
+        <a routerLink="../">Se connecter</a>
+    </div>
 </form>

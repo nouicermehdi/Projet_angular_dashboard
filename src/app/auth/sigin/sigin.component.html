@@ -1,17 +1,43 @@
-<form>
+<form #siginform="ngForm">
     <div class="mb-3 text-center" >
         <h2>Connexion</h2>
     </div>
     <div class="mb-3">
         <label class="form-label">Email</label>
-        <input class="form-control" placeholder="Votre email ici" [(ngModel)]="utilisateur.email" name="email" type="email">
+        <input class="form-control"
+            pattern="[a-zA-Z0-9._-]+@[a-zA-Z._-]+\.[a-zA-Z]{2,6}"
+            placeholder="Votre email ici" name="email"
+            #email="ngModel" [(ngModel)]="utilisateur.email"
+            type="email" required>
+        <div *ngIf="email.touched&&email.invalid" class="alert alert-danger">
+            <div *ngIf="email.errors&&email.errors['required']">Le email est
+                obligatoire</div>
+            <div *ngIf="email.errors&&email.errors['pattern']">veuillez saisir
+                un email correct</div>
+        </div>
+
     </div>
     <div class="mb-3">
         <label class="form-label">Password</label>
-        <input class="form-control" placeholder="Votre Password ici" [(ngModel)]="utilisateur.password" name="password" type="password">
+        <input class="form-control"
+
+            #password="ngModel" name="password"
+            pattern="[a-zA-Z@èéçàù#$%^&+=!-_0-9]{8,}"
+            placeholder="Votre Password ici"
+            [(ngModel)]="utilisateur.password" type="password"
+            required>
+        <div *ngIf="password.touched&&password.invalid"
+            class="alert alert-danger">
+            <div *ngIf="password.errors&&password.errors['required']">Le
+                password est
+                obligatoire</div>
+            <div *ngIf="password.errors&&password.errors['pattern']">veuillez
+                saisir
+                un password avec min 8 caractère</div>
+        </div>
     </div>
     <div class="mb-3 text-center">
-        <button class="btn btn-primary">Connexion</button>
+        <button [disabled]="siginform.invalid" class="btn btn-primary">Connexion</button>
         <br>
         <a routerLink="./registre">S'inscrire</a>    </div>
 </form>
